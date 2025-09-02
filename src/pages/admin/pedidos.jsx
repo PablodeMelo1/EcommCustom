@@ -111,6 +111,7 @@ export default function PedidosAdmin() {
               <th>Fecha</th>
               <th>Total</th>
               <th>Estado</th>
+              <th>Entrega</th>
               <th>Dirección</th>
               <th>Modificar</th>
               <th>Detalle</th>
@@ -125,6 +126,7 @@ export default function PedidosAdmin() {
                 <td>{new Date(p.fecha).toLocaleString()}</td>
                 <td>${p.total}</td>
                 <td>{p.estado}</td>
+                <td>{p.tipoEntrega}</td>
                 <td>
                   {p.direccion}, {p.numeroCasa} ({p.tipoCasa}), {p.ciudad}, {p.departamento}
                 </td>
@@ -142,7 +144,7 @@ export default function PedidosAdmin() {
                 </td>
                 <td>
                   <button onClick={() => abrirModalDetalle(p)} className="btn-detalle">
-                    Ver detalles
+                  Ver detalles
                   </button>
                 </td>
               </tr>
@@ -165,6 +167,8 @@ export default function PedidosAdmin() {
                 <tr>
                   <th>Producto</th>
                   <th>Cantidad</th>
+                  <th>Color</th>
+                  <th>Talle</th>
                   <th>Precio Unitario</th>
                   <th>Subtotal</th>
                 </tr>
@@ -174,6 +178,9 @@ export default function PedidosAdmin() {
                   <tr key={item.productId}>
                     <td>{item.name}</td>
                     <td>{item.quantity}</td>
+                    <td>{item.color || "N/A"}</td>
+                    <td>{item.talle || "N/A"}</td>
+                    
                     <td>${item.price}</td>
                     <td>${item.price * item.quantity}</td>
                   </tr>

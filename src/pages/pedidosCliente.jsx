@@ -44,8 +44,9 @@ export default function PedidosCliente() {
               <th>Fecha</th>
               <th>Total</th>
               <th>Estado</th>
-              <th>Tipo de entrega</th>
-              <th>Detalle</th>
+              <th>Entrega</th>
+              <th>Metodo de Pago</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -56,10 +57,15 @@ export default function PedidosCliente() {
                 <td>${p.total}</td>
                 <td>{p.estado}</td>
                 <td>{p.tipoEntrega}</td>
+                <td>{p.paymentMethod}</td>
                 <td>
                   <button onClick={() => abrirModalDetalle(p)} className="btn-detalle">
                     Ver detalles
                   </button>
+                  {p.paymentMethod === "transferencia" &&
+                  <a href={`/checkoutExito?pedidoId=${p._id}`} className="btn-detalle">
+                    Metodos de pago
+                  </a>}
                 </td>
               </tr>
             ))}

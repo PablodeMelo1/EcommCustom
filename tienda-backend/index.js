@@ -18,10 +18,10 @@ import { fileURLToPath } from 'url';
 import 'dotenv/config';
 
 // Inicialización de Express y middlewares
-const JWT_SECRET = 'jwtSecretJson';
+const JWT_SECRET = process.env.JWT_SECRET;;
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN,
     credentials: true
 }));
 app.use(express.json());
@@ -61,7 +61,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 //********************fin Configuración de rutas estáticas y Multer**************************/
 
 // Conexión a MongoDB
-mongoose.connect('mongodb://localhost:27017/tienda', {
+mongoose.connect(process.env.DB_URI, { // 👈 Usar variable de entorno
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -636,11 +636,11 @@ app.post('/api/crear-preferencia', authMiddleware, async (req, res) => {
                 currency_id: 'UYU'
             })),
             back_urls: {
-                success: `http://localhost:3000/checkoutExito?pedidoId=${nuevoPedido._id}`,
-                failure: `http://localhost:3000/checkoutExito?pedidoId=${nuevoPedido._id}`,
-                pending: `http://localhost:3000/checkoutExito?pedidoId=${nuevoPedido._id}`
+                success: `${process.env.FRONTEND_URL}/checkoutExito?pedidoId=${nuevoPedido._id}`,
+                failure: `${process.env.FRONTEND_URL}/checkoutExito?pedidoId=${nuevoPedido._id}`,
+                pending: `${process.env.FRONTEND_URL}/checkoutExito?pedidoId=${nuevoPedido._id}`
             },
-            notification_url: 'https://4b161e22d9d0.ngrok-free.app/api/mercadopago-webhook',
+            notification_url: 'https://ceb749162e00.ngrok-free.app',
             metadata: {
                 userId: req.user.id,
                 pedidoId: nuevoPedido._id.toString()
@@ -720,4 +720,6 @@ app.post('/api/mercadopago-webhook', async (req, res) => {
     }
 });
 
-app.listen(3001, () => console.log('✅ API corriendo en http://localhost:3001'));
+app.listen(process.env.PORT || 3001, () => {
+    console.log(`✅ API corriendo en ${process.env.NODE_ENV === 'production' ? 'tu-dominio.com' : 'http://localhost'}:${process.env.PORT || 3001}`);
+});

@@ -25,6 +25,7 @@
   border-collapse: collapse;
   background-color: #fff;
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  
 }
 
 .pedidos-table th,
@@ -32,6 +33,7 @@
   padding: 12px 16px;
   border: 1px solid #ddd;
   text-align: left;
+  margin: 0 auto;
 }
 
 .pedidos-table th {
@@ -45,7 +47,18 @@
 .pedidos-table tbody tr:hover {
   background-color: #f1f1f1;
 }
-
+a.btn-detalle{
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin: 2px;
+  transition: background-color 0.3s ease;
+  margin: 0 auto;
+}
 /* Botón detalles */
 .btn-detalle {
   background-color: #007bff;
@@ -54,8 +67,10 @@
   padding: 6px 10px;
   cursor: pointer;
   border-radius: 4px;
+  margin: 2px;
   transition: background-color 0.3s ease;
 }
+
 
 .btn-detalle:hover {
   background-color: #0056b3;
@@ -155,3 +170,6 @@
     color: #666;
   }
 }
+
+
+
