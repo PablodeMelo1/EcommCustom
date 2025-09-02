@@ -1,0 +1,157 @@
+/* pedidos */
+.pedidos-container {
+  width: 100%;
+  max-width: 1200px; /* o más si querés */
+  margin: 30px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Container principal */
+.pedidos-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+/* Tabla pedidos */
+.pedidos-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.pedidos-table th,
+.pedidos-table td {
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.pedidos-table th {
+  background-color: #f5f5f5;
+}
+
+.pedidos-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.pedidos-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Botón detalles */
+.btn-detalle {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-detalle:hover {
+  background-color: #0056b3;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+/* Modal content */
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 4px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* Botón cerrar */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Tabla detalle */
+.detalle-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.detalle-table th,
+.detalle-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.detalle-table th {
+  background-color: #eee;
+}
+
+/* Responsive para la tabla pedidos */
+@media (max-width: 1100px) {
+  .pedidos-table,
+  .pedidos-table thead,
+  .pedidos-table tbody,
+  .pedidos-table th,
+  .pedidos-table td,
+  .pedidos-table tr {
+    display: block;
+  }
+
+  .pedidos-table thead {
+    display: none;
+  }
+
+  .pedidos-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .pedidos-table td {
+    padding: 10px 15px;
+    text-align: left;
+    position: relative;
+  }
+
+  .pedidos-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 4px;
+    color: #666;
+  }
+}

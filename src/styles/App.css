@@ -1,0 +1,402 @@
+
+.App {
+  text-align: center;
+  height: 100%;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+.logo-preview {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.logo-preview img {
+  max-height: 100px;
+  max-width: 200px;
+  object-fit: contain;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* File: src/pages/Admin.jsx */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+/* Contenedor principal */
+.config-container {
+  max-width: 800px;
+  margin: 10px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* Titulos */
+.config-container h1 {
+  text-align: center;
+  margin: 0;
+  font-size: 32px;
+  color: #2c3e50;
+}
+
+.config-container h2 {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-size: 20px;
+  font-weight: normal;
+  color: #555;
+}
+
+/* Formulario */
+.config-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Etiquetas */
+.config-container label {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  color: #555;
+}
+
+/* Inputs */
+.config-container input[type="text"],
+.config-container input[type="password"],
+.config-container select {
+  padding: 5px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin: 4px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.config-container input[type="text"]:focus,
+.config-container select:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.2);
+  outline: none;
+}
+
+/* Color picker */
+.config-container input[type="color"] {
+  width: 100%;
+  height: 50px;
+  border: none;
+  background: none;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+/* Boton */
+.config-container button {
+  padding: 14px;
+  background-color: #007BFF;
+  color: #fff;
+  font-size: 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.config-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Enlaces inferiores */
+.volver {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.volver a {
+  color: #007BFF;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.volver a:hover {
+  text-decoration: underline;
+}
+
+/* Cargando */
+.cargando {
+  text-align: center;
+  padding: 30px;
+  font-size: 20px;
+  color: #555;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .config-container {
+    padding: 30px 20px;
+    margin: 20px;
+  }
+}
+
+
+button {
+  padding: 10px 18px;
+  font-size: 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+
+
+
+
+/* Contenedor de cada método */
+.metodosPago {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+/* Título y switch en línea para PC */
+.metodoTitulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metodoTitulo h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  flex-shrink: 0; /* no se achica el texto */
+}
+
+.campoMetodo {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.campoMetodo input {
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Tabla de cuentas bancarias */
+.tablaCuentas {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: white;
+}
+
+.tablaCuentas th, 
+.tablaCuentas td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.tablaCuentas th {
+  background-color: #f3f3f3;
+  font-weight: 600;
+}
+
+.tablaCuentas td button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Formulario de nueva cuenta */
+.nuevaCuenta {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.nuevaCuenta input {
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Switch (se mantiene tu estilo) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 55px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Adaptación a móviles */
+@media (max-width: 768px) {
+  .metodoTitulo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .nuevaCuenta {
+    flex-direction: column;
+  }
+}
+
+
+/* Grid admin */
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Máximo 2 columnas */
+  grid-auto-rows: 150px;
+  gap: 20px;
+}
+
+/* Tarjetas */
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+}
+
+/* Diferenciar tamaños */
+.card.big {
+  grid-column: span 2;
+  grid-row: span 2;
+  font-size: 1.5rem;
+}
+
+.card.medium {
+  grid-column: span 2;
+  font-size: 1.3rem;
+}
+
+.card.small {
+  grid-column: span 1;
+  font-size: 1.1rem;
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .card.big,
+  .card.medium,
+  .card.small {
+    grid-column: span 1;
+    grid-row: auto;
+  }
+}
+a{
+
+  text-decoration: none;
+}

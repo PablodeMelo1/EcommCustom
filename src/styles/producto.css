@@ -1,0 +1,227 @@
+/* Catálogos.css */
+
+
+.login-container input[type="textarea"]
+ {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+textarea
+{
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.comentario-boton {
+  width: 100%;
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.star-rating {
+  font-size: 2em;
+  color: #ccc;
+}
+
+.star-rating .star {
+  cursor: pointer;
+}
+
+.star-rating .star.selected {
+  color: gold; 
+}
+
+/* Contenedor principal */
+.producto-container {
+  max-width: 1100px;
+  margin: 30px auto 60px; /* espacio abajo para scroll */
+  padding: 0 20px;
+    min-height: 100vh;
+  --color-principal: #007bff;
+}
+
+/* Contenido principal */
+.producto-main {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* Imagen */
+.producto-img img {
+  width: 600px;
+  height: 600px;
+  padding: 15px;
+  border-radius: 4px;
+  object-fit: fill;
+  box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
+}
+
+/* Info */
+.producto-info {
+  flex: 1;
+  min-width: 320px;
+}
+
+.producto-info h1 {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: #222;
+}
+
+.producto-info .precio {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--color-principal);
+  margin-bottom: 22px;
+  font-weight: 700;
+}
+
+.producto-info .prodPrecio {
+  font-size: 3rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.producto-info .descripcion {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  color: #444;
+}
+
+.producto-info .comprar {
+  background-color: var(--color-principal);
+  color: #fff;
+  border: none;
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 4px 8px rgb(0 123 255 / 0.4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.producto-info .comprar:hover {
+  background-color: #0056b3;
+  box-shadow: 0 6px 12px rgb(0 86 179 / 0.6);
+}
+
+/* Comentarios */
+.producto-comentarios {
+  margin-top: 50px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 30px;
+  margin-bottom: 50px;
+}
+
+.producto-comentarios h3 {
+  font-size: 1.8rem;
+  margin-bottom: 28px;
+  font-weight: 600;
+  color: #222;
+}
+
+.comentario {
+  border-top: 1px solid #ddd;
+  padding: 18px 0;
+  color: #444;
+  font-size: 1rem;
+}
+
+.comentario:first-child {
+  border-top: none;
+}
+
+.comentario p {
+  margin: 6px 0;
+}
+
+.comentario strong {
+  font-weight: 700;
+  color: #333;
+}
+
+
+/* ========== RESPONSIVE MOBILE ========== */
+@media (max-width: 850px) {
+
+    /* Imagen: En mobile, se ajusta al ancho y se hace cuadrada */
+    .producto-img img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1; /* Esto la fuerza a ser cuadrada */
+        object-fit: contain; /* Ajusta la imagen sin distorsionarla */
+        padding: 0; /* Opcional: elimina el padding para que ocupe más espacio */
+    }
+}
+
+
+
+
+
+
+
+.selector {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+.selector label {
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.selector select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  color: #333;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.selector select:hover {
+  border-color: #888;
+}
+
+.selector select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
+  outline: none;
+}
+
+/* Opcional: hacer que todo se vea un poco más compacto en mobile */
+@media (max-width: 600px) {
+  .selector {
+    margin-bottom: 0.8rem;
+  }
+
+  .selector select {
+    font-size: 0.9rem;
+    padding: 0.45rem 0.6rem;
+  }
+}

@@ -1,0 +1,15 @@
+.footer {
+
+  margin-bottom: 0;
+  width: 100%;
+  color: white;
+  text-align: center;
+  padding: 20px 0px;
+  z-index: 999;
+}
+
+.footer-redes a{
+  font-size: 30px;
+  margin: 0 15px;
+}
+

@@ -1,0 +1,93 @@
+/*|||||||||||||||||||||||||Menu|||||||||||||||||||||||||*/
+/*|||||||||||||||||||||||||Menú lateral|||||||||||||||||||||||||*/
+
+.menu-filtros {
+  text-align: center;
+  width: 220px;
+  padding: 20px;
+  margin-left: 2%;
+  margin-top: 20px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+  height: auto;
+  align-self: flex-start;
+
+}
+
+.menu-filtros h2 {
+  font-size: 20px;
+  margin-bottom: 0px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 6px;
+}
+
+.menu-categorias {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-categorias li a {
+  text-decoration: none;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+  display: block;
+}
+
+.menu-categorias li a:hover {
+  background-color: #e0e0e0;
+  color: #000;
+}
+
+@media (max-width: 1000px) {
+  .menu-filtros {
+    display: none;
+    height: auto !important;
+    align-self: flex-start !important;
+  }
+
+  .menu-categorias {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .menu-categorias li {
+    flex: 1 1 45%;
+  }
+}
+
+
+.ver-mas {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.ver-mas a {
+  display: inline-block;
+  background: var(--color-primario);
+  color: #000;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.ver-mas a:hover {
+  background: #0056b3; /* un tono más oscuro */
+  transform: scale(1.05);
+}

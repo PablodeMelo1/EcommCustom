@@ -1,0 +1,601 @@
+/*
+ * Archivo: src/styles/productos.css
+ * Descripción: Estilos para la sección de administración de productos.
+ *
+ * NOTA: Este CSS incluye un rediseño completo del estilo para un look más
+ * profesional, compacto y responsive.
+ */
+
+/* ==================================== */
+/* ESTILOS GLOBALES                     */
+/* ==================================== */
+
+body {
+  background-color: #f4f4f9;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.productos-container {
+  width: 95%;
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+.productos-container h2 {
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+/* ==================================== */
+/* ESTILOS DEL FORMULARIO               */
+/* ==================================== */
+
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-group-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.form-group-inline > .form-group {
+  flex: 1;
+  min-width: 150px;
+}
+
+.product-form input[type="text"],
+.product-form input[type="number"],
+.product-form textarea,
+.product-form select {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.product-form input:focus,
+.product-form textarea:focus,
+.product-form select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.product-form textarea {
+  min-height: 60px;
+}
+
+.form-check {
+  display: flex;
+  align-items: left;
+}
+
+.form-check label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #555;
+  font-weight: normal;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+/* ==================================== */
+/* ESTILOS DE BOTONES                   */
+/* ==================================== */
+
+.btn-primary {
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* Nuevos botones de confirmación */
+.btn-confirm-delete {
+  background-color: #28a745;
+  color: white;
+  padding: 8px;
+  font-size: 16px;
+  width: 30px;
+  height: 40px;
+  border-radius: 50%;
+  line-height: 0;
+}
+
+.btn-cancel-delete {
+  background-color: #6c757d;
+  color: white;
+  padding: 8px;
+  font-size: 16px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  line-height: 0;
+}
+
+/* Estilos para agregar categoría */
+.add-categories {
+  margin-bottom: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+.add-categories h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.add-categories form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.add-categories input {
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+/* ==================================== */
+/* MENSAJES Y FILTROS                   */
+/* ==================================== */
+
+.message {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.message.success {
+  color: #28a745;
+}
+
+.message.error {
+  color: #dc3545;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filtros input {
+  flex: 1;
+  min-width: 150px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.no-productos {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+  margin-top: 30px;
+}
+
+/* ==================================== */
+/* ESTILOS DE LA TABLA                  */
+/* ==================================== */
+
+.productos-table-container {
+  overflow-x: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.productos-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: #444;
+}
+
+.productos-table th,
+.productos-table td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.productos-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+}
+
+.productos-table tr:hover {
+  background-color: #f1f3f5;
+}
+
+/* Estilos de precios en la tabla */
+.precio-viejo {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 12px;
+  margin-right: 8px;
+}
+
+.precio-nuevo {
+  font-weight: bold;
+  color: #28a745;
+}
+
+.table-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  display: block;
+}
+
+.table-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.table-actions button {
+  padding: 6px 10px;
+  font-size: 11px;
+}
+
+/* ==================================== */
+/* RESPONSIVIDAD DE LA TABLA            */
+/* ==================================== */
+
+@media (max-width: 768px) {
+  .productos-table {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .productos-table thead {
+    display: none;
+  }
+
+  .productos-table tbody,
+  .productos-table tr {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .productos-table td {
+    padding: 8px 10px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .productos-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .productos-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+  }
+
+  .table-actions {
+    justify-content: flex-end;
+  }
+
+  .filtros {
+    flex-direction: column;
+  }
+}
+
+/* ==================================== */
+/* OTRO ELEMENTOS MENORES               */
+/* ==================================== */
+
+.volver {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.volver a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.volver a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Nuevos botones de confirmación */
+.btn-confirm-delete {
+  background-color: #28a745;
+  color: white;
+  padding: 8px;
+  font-size: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  line-height: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-cancel-delete {
+  background-color: #6c757d;
+  color: white;
+  padding: 8px;
+  font-size: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  line-height: 0;
+  border: none;
+  cursor: pointer;
+}
+
+/* src/styles/productos.css */
+
+/* ... (otros estilos) */
+
+.carga-masiva-container {
+    padding: 20px;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.carga-masiva-container h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.carga-masiva-container p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.carga-masiva-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+@media (max-width: 768px){
+  .carga-masiva-form{
+    display: block;
+
+  }
+
+  .carga-masiva-form input{
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+}
+
+
+
+.carga-masiva-form button {
+    padding: 8px 16px;
+}
+
+.errores-carga {
+    margin-top: 20px;
+    text-align: left;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.errores-carga h4 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: #721c24;
+}
+
+.errores-carga ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.errores-carga li {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+
+/* borrar categorias */
+
+.categorias-container {
+  margin: 15px 0;
+  width: 100%;
+}
+
+.categorias-toggle {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background: #f0f0f0;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: black;
+}
+
+.categorias-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.chip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 6px;
+  color: black;
+}
+
+.chip-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.btn-delete,
+.btn-confirm-delete,
+.btn-cancel-delete {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-delete {
+  color: red;
+}
+
+.btn-confirm-delete {
+  color: green;
+}
+
+.btn-cancel-delete {
+  color: gray;
+}
+
+
+/* NUEVO */
+
+/* Chips input */
+.chip-input {
+  margin-top: 8px;
+}
+
+.chip-input input {
+  padding: 6px 10px;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  background: #f0f0f0;
+  border-radius: 12px;
+  padding: 4px 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chip button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #e63946;
+  font-size: 14px;
+  line-height: 1;
+}
