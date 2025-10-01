@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchWithRefresh } from '../../api'; // tu fetch centralizado
 
-const CONFIG_URL = '/api/config'; // URL centralizada
+const CONFIG_URL = '/api/v1/config'; // URL centralizada
 
 export default function Pagos() {
   const [config, setConfig] = useState(null);
@@ -13,8 +13,10 @@ export default function Pagos() {
     mercadoPagoCheck: false,
     transferenciaCheck: false,
     efectivoCheck: false,
+    retiroLocalCheck: false,
     accessTokenMP: '',
     efectivoTexto: '',
+    retiroLocalTexto: '',
     transferenciaCuentas: [],
   });
 
@@ -77,49 +79,54 @@ export default function Pagos() {
   // En tu componente Pagos.jsx
   // ... (código existente, no se necesita cambiar nada más) ...
 
-    async function handleSubmit(e) {
-        e.preventDefault();
-        setMessage('');
-        setMessageType('');
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setMessage('');
+    setMessageType('');
 
-        try {
-            // --- Cambiamos de JSON a FormData ---
-            const formData = new FormData();
+    try {
+      // --- Cambiamos de JSON a FormData ---
+      const formData = new FormData();
 
-            // Iteramos sobre todos los campos del formulario
-            for (const key in form) {
-                const value = form[key];
+      // Iteramos sobre todos los campos del formulario
+      for (const key in form) {
+        const value = form[key];
 
-                // Los arrays y objetos deben ser convertidos a JSON string
-                if (typeof value === 'object' && value !== null) {
-                    // `JSON.stringify` convierte el array de cuentas en una cadena
-                    formData.append(key, JSON.stringify(value));
-                } else {
-                    // Los valores simples (strings, booleans, numbers) se agregan directamente
-                    formData.append(key, value);
-                }
-            }
-            
-            // No necesitamos el `headers: { 'Content-Type': 'application/json' }`
-            // `FormData` se encarga de establecer el `Content-Type` automáticamente
-            const res = await fetchWithRefresh(CONFIG_URL, {
-                method: 'POST',
-                body: formData,
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) throw new Error(data.error || 'Error al guardar');
-
-            setConfig(data);
-            setForm(data.config); // Tu backend debe devolver el objeto de configuración en `data.config`
-            setMessage(data.message || 'Cambios guardados correctamente ✅');
-            setMessageType('success');
-        } catch (error) {
-            setMessage(error.message || 'Error al guardar los cambios ❌');
-            setMessageType('error');
+        // Los arrays y objetos deben ser convertidos a JSON string
+        if (typeof value === 'object' && value !== null) {
+          // `JSON.stringify` convierte el array de cuentas en una cadena
+          formData.append(key, JSON.stringify(value));
+        } else {
+          // Los valores simples (strings, booleans, numbers) se agregan directamente
+          formData.append(key, value);
         }
+      }
+
+      // No necesitamos el `headers: { 'Content-Type': 'application/json' }`
+      // `FormData` se encarga de establecer el `Content-Type` automáticamente
+      const res = await fetchWithRefresh(CONFIG_URL, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || 'Error al guardar');
+
+      setConfig(data);
+      setForm(data.config); // Tu backend debe devolver el objeto de configuración en `data.config`
+      setMessage(data.message || 'Cambios guardados correctamente ✅');
+      setMessageType('success');
+    } catch (error) {
+      setMessage(error.message || 'Error al guardar los cambios ❌');
+      setMessageType('error');
     }
+  }
+
+  function handleCheckboxChange(e) {
+    const { name, checked } = e.target;
+    setForm({ ...form, [name]: checked });
+  }
 
   if (!config) return <p className="cargando">Cargando configuración...</p>;
 
@@ -129,6 +136,37 @@ export default function Pagos() {
       <h2>Panel de configuración</h2>
 
       <form onSubmit={handleSubmit}>
+        <h3>Configuración General</h3>
+
+        {/* Retiro en local */}
+        <div className="metodosPago">
+          <div className="metodoTitulo">
+            <h3>Retiro en local</h3>
+            <label className="switch">
+              <input
+                type="checkbox"
+                name="retiroLocalCheck"
+                checked={form.retiroLocalCheck}
+                onChange={(e) =>
+                  setForm({ ...form, [e.target.name]: e.target.checked })
+                }
+              />
+              <span className="slider round"></span>
+            </label>
+          </div>
+          {form.retiroLocalCheck && (
+            <label className="campoMetodo">
+              Ubicación:
+              <input
+                type="text"
+                name="retiroLocalTexto"
+                value={form.retiroLocalTexto}
+                onChange={handleChange}
+              />
+            </label>
+          )}
+        </div>
+
         <h3>Métodos de Pago</h3>
 
         {/* Mercado Pago */}
@@ -245,6 +283,8 @@ export default function Pagos() {
             <input type="text" name="efectivoTexto" value={form.efectivoTexto} onChange={handleChange} />
           </label>
         </div>
+
+
 
         <button type="submit">Guardar cambios</button>
       </form>

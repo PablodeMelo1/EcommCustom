@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchWithRefresh } from '../../api';
 
 // URL centralizada
-const CONFIG_URL = '/api/config';
+const CONFIG_URL = '/api/v1/config';
 
 export default function Redes() {
     const [config, setConfig] = useState(null);

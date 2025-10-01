@@ -35,7 +35,7 @@ const __dirname = path.dirname(__filename);
 // Configuración de Multer para guardar archivos en public/uploads
 const productoStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        // CORREGIDO: Usamos la ruta completa para guardar en public/uploads
+
         cb(null, path.join(__dirname, 'public/uploads'));
     },
     filename: (req, file, cb) => {
@@ -65,8 +65,8 @@ mongoose.connect(process.env.DB_URI, { // 👈 Usar variable de entorno
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-.then(() => console.log('✅ Conectado a MongoDB'))
-.catch(err => console.error('Error en MongoDB:', err));
+    .then(() => console.log('✅ Conectado a MongoDB'))
+    .catch(err => console.error('Error en MongoDB:', err));
 
 // Middleware de autenticación
 function authMiddleware(req, res, next) {
@@ -94,31 +94,14 @@ app.get('/api/config', async (req, res) => {
     res.json(config);
 });
 
-// // OLD OST Config
-// app.post('/api/config', async (req, res) => {
-//     let config = await Config.findOne();
-//     if (!config) {
-//         config = new Config(req.body);
-//     } else {
-//         Object.assign(config, req.body);
-//     }
-//     await config.save();
-//     res.json({
-//         message: 'Configuración guardada correctamente',
-//         config
-//     });
-// });
-
 // POST Config
 app.post('/api/config', logoUpload.single('logo'), async (req, res) => {
     try {
         let config = await Config.findOne();
-        
+
         // Creamos un objeto de datos a actualizar
         const updateData = {};
 
-        // 🚨 CAMBIO AQUÍ 🚨
-        // Solo copiamos las propiedades del body si existen
         for (const key in req.body) {
             updateData[key] = req.body[key];
         }
@@ -136,10 +119,10 @@ app.post('/api/config', logoUpload.single('logo'), async (req, res) => {
                 return res.status(400).json({ error: 'El formato de las cuentas de transferencia es inválido.' });
             }
         }
-        
+
         // Conversión de booleanos
         const booleanFields = [
-            'igCheck', 'xCheck', 'fbCheck', 'ttCheck', 'wpCheck', 'emailCheck', 
+            'igCheck', 'xCheck', 'fbCheck', 'ttCheck', 'wpCheck', 'emailCheck',
             'mercadoPagoCheck', 'transferenciaCheck', 'efectivoCheck'
         ];
         booleanFields.forEach(field => {
@@ -151,8 +134,7 @@ app.post('/api/config', logoUpload.single('logo'), async (req, res) => {
         if (!config) {
             config = new Config(updateData);
         } else {
-            // ✅ Y CAMBIO AQUÍ TAMBIÉN 
-            // Usamos Object.assign para actualizar solo los campos que existen en `updateData`
+
             Object.assign(config, updateData);
         }
 
@@ -239,8 +221,8 @@ app.put('/api/productos/:id', productoUpload.single('img'), async (req, res) => 
             descuento,
             categoria,
             destacado: destacado === 'true' || destacado === true,
-            coloresCheck: coloresCheck === 'true' || coloresCheck === true, // 👈 nuevo
-            tallesCheck: tallesCheck === 'true' || tallesCheck === true,   // 👈 nuevo
+            coloresCheck: coloresCheck === 'true' || coloresCheck === true,
+            tallesCheck: tallesCheck === 'true' || tallesCheck === true,
             colores: colores ? (Array.isArray(colores) ? colores : JSON.parse(colores)) : [],
             talles: talles ? (Array.isArray(talles) ? talles : JSON.parse(talles)) : []
         };
@@ -364,7 +346,7 @@ app.post('/api/refresh', async (req, res) => {
 app.post('/api/registro', async (req, res) => {
     const { mail, nombre, telefono, contra } = req.body;
     const existingUser = await Usuario.findOne({ mail });
-    if (existingUser) return res.status(400).json({ error: 'Usuario ya existe' });
+    if (existingUser) return res.status(400).json({ error: 'Usuario ya existente' });
     const newUser = new Usuario({ mail, nombre, telefono, contra });
     await newUser.save();
     res.json({ message: 'Usuario registrado correctamente' });
@@ -474,7 +456,7 @@ app.post('/api/pedidos', authMiddleware, async (req, res) => {
                 return res.status(400).json({ error: `No hay suficiente stock para ${item.name}, stock restante: ${producto.stock}` });
             }
         }
-        
+
         let estadoPedido = "pendiente";
         if (paymentMethod === "mercado_pago") {
             estadoPedido = "pago";
@@ -577,7 +559,7 @@ app.post('/api/categorias', async (req, res) => {
         // 3. Si no existe, crea y guarda la nueva categoría
         const nueva = new Categoria({ nombre });
         await nueva.save();
-        
+
         // 4. Responde con la nueva categoría creada
         res.status(201).json(nueva);
     } catch (err) {

@@ -23,7 +23,7 @@ export default function Registro() {
     setError(null);
 
     try {
-      const res = await fetchWithRefresh('/api/registro', {
+      const res = await fetchWithRefresh('/api/v1/auth/registro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
@@ -35,7 +35,7 @@ export default function Registro() {
         throw new Error(data.error || 'Error al registrar usuario');
       }
 
-      alert('Usuario registrado correctamente');
+      // alert('Usuario registrado correctamente');
       navigate('/login');
     } catch (err) {
       setError(err.message);

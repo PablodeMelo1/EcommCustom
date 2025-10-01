@@ -6,7 +6,8 @@ import { FaCartShopping } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
 import { CiLogin } from "react-icons/ci";
 
-var URLConfig = 'http://localhost:3001/api/config';
+export const BASE_URL = process.env.REACT_APP_BASE_URL_API;
+var URLConfig = `${BASE_URL}/api/v1/config`;
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -65,7 +66,7 @@ export default function Nav() {
   const [categorias, setCategorias] = useState([]);
   
   useEffect(() => {
-      fetch('http://localhost:3001/api/categorias')
+      fetch(`${BASE_URL}/api/v1/categorias`)
         .then(res => res.json())
         .then(data => setCategorias(data))
         .catch(err => console.error('Error al cargar categorías:', err));
@@ -77,7 +78,7 @@ export default function Nav() {
     <div className='nav-container' style={{background: config.colorNav}}>
       <nav style={{ color: config.fuentePrincipal }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <a href="/"><img src={`http://localhost:3001${config.logoUrl}`} alt="Logo" style={{ height: '50px', marginRight: '10px' }} /></a>
+          <a href="/"><img src={`${BASE_URL}${config.logoUrl}`} alt="Logo" style={{ height: '50px', marginRight: '10px' }} /></a>
           <h1 style={{ fontSize: '1.5rem' }}>{config.nombreTienda}</h1>
         </div>
 

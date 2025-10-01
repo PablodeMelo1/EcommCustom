@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { fetchWithRefresh } from '../../api';
 
 // Centralizamos la URL
-const CONFIG_URL = '/api/config';
+
+export const BASE_URL = process.env.REACT_APP_BASE_URL_API;
+const CONFIG_URL = '/api/v1/config';
+
 
 export default function Estetica() {
     const [config, setConfig] = useState(null);
@@ -121,7 +124,7 @@ export default function Estetica() {
                 <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
                     <h3>Logo actual:</h3>
                     <img
-                        src={`http://localhost:3001${config.logoUrl}`}
+                        src={`${BASE_URL}${config.logoUrl}`}
                         alt="Logo de la tienda"
                         style={{ maxWidth: '100px', height: 'auto' }}
                         

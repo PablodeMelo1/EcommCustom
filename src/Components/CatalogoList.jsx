@@ -1,5 +1,5 @@
 import '../styles/Catalogos.css'
-
+export const BASE_URL = process.env.REACT_APP_BASE_URL_API;
 export default function CatalogoList({ productosEnOferta, productosDestacados, todosLosProductos }) {
 
   // Función para renderizar una sección de productos
@@ -15,16 +15,21 @@ export default function CatalogoList({ productosEnOferta, productosDestacados, t
           {productos.slice(0, 24).map(prod => (
             <a href={`/producto/${prod._id}`} key={prod._id}>
               <div className="producto">
-                <img src={`http://localhost:3001${prod.img}`} alt={prod.nombre} />
+                <img src={`${BASE_URL}${prod.img}`} alt={prod.nombre} />
                 <div className="info">
                   <h3>{prod.nombre}</h3>
                   {prod.oferta && prod.precioFinal ? (
-                    <p>
-                      <span style={{ textDecoration: 'line-through', color: 'gray', marginRight: '5px' }}>
-                        ${prod.precio}
-                      </span>
-                      <span style={{ color: 'green' }}>${prod.precioFinal}</span>
-                    </p>
+                    <>
+                      <div className='offCard'>
+                        {prod.descuento}% OFF
+                      </div>
+                      <p>
+                        <span style={{ textDecoration: 'line-through', color: 'gray', marginRight: '5px' }}>
+                          ${prod.precio}
+                        </span>
+                        <span style={{ color: 'green' }}>${prod.precioFinal}</span>
+                      </p>
+                  </>
                   ) : (
                     <p>${prod.precio}</p>
                   )}

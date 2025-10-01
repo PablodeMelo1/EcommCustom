@@ -1,5 +1,6 @@
 // src/api.js
-export const BASE_URL = 'http://localhost:3001';
+export const BASE_URL = process.env.REACT_APP_BASE_URL_API; // Asegúrate de que esta variable esté definida en tu entorno
+
 
 // fetch principal con refresh automático (versión corregida y simplificada)
 export const fetchWithRefresh = async (endpoint, options = {}) => {
@@ -21,7 +22,7 @@ export const fetchWithRefresh = async (endpoint, options = {}) => {
   if (resOriginal.status === 401) {
     console.log("Token expirado. Intentando refrescar...");
     
-    const refreshRes = await fetch(`${BASE_URL}/api/refresh`, {
+    const refreshRes = await fetch(`${BASE_URL}/api/v1/auth/refresh`, {
       method: 'POST',
       credentials: 'include',
     });
@@ -51,7 +52,7 @@ export const fetchWithRefresh = async (endpoint, options = {}) => {
 
 // Login
 export const login = async ({ mail, contra }) => {
-  const res = await fetch(`${BASE_URL}/api/login`, {
+  const res = await fetch(`${BASE_URL}/api/v1/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ mail, contra }),
@@ -69,7 +70,7 @@ export const login = async ({ mail, contra }) => {
 // Traer carrito del usuario
 export const getCarrito = async (userId) => {
   console.log(userId)//esto me llega undefined
-  const res = await fetchWithRefresh(`/api/carrito/${userId}`, {
+  const res = await fetchWithRefresh(`/api/v1/carrito/${userId}`, {
     headers: { 'Content-Type': 'application/json' },
   });
 
@@ -83,7 +84,7 @@ export const getCarrito = async (userId) => {
 
 // Guardar carrito del usuario
 export const saveCarrito = async (userId, items) => {
-  const res = await fetchWithRefresh(`/api/carrito/${userId}`, {
+  const res = await fetchWithRefresh(`/api/v1/carrito/${userId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ items }),
@@ -102,7 +103,7 @@ export const fetchPedidosCliente = async () => {
   const token = localStorage.getItem('token');
   if (!token) throw new Error('No autenticado');
 
-  const res = await fetchWithRefresh('/api/pedidos/cliente', {
+  const res = await fetchWithRefresh('/api/v1/pedidos/cliente', {
     headers: { 'Content-Type': 'application/json' },
   });
 

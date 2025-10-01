@@ -1,7 +1,10 @@
 import '../styles/Catalogos.css'
 
+
 // El componente Catalogo ahora recibe las listas filtradas
 export default function Catalogo({ productosEnOferta, productosDestacados, todosLosProductos }) {
+//trae el base URL del .env
+const baseURL = process.env.REACT_APP_BASE_URL_API;
 
   // Función para renderizar una sección de productos
   const renderizarSeccion = (titulo, productos) => {
@@ -19,15 +22,20 @@ export default function Catalogo({ productosEnOferta, productosDestacados, todos
           {productos.map(prod => (
             <div key={prod._id} className="producto">
               <a href={`/producto/${prod._id}`}>
-                <img src={`http://localhost:3001${prod.img}`} alt={prod.nombre} />
+                <img src={`${baseURL}${prod.img}`} alt={prod.nombre} />
                 <h3>{prod.nombre}</h3>
                 {prod.oferta && prod.precioFinal ? (
+                  <>
+                  <div className='offCard'>
+                    {prod.descuento}% OFF
+                  </div>
                   <p>
                     <span style={{ textDecoration: 'line-through', color: 'gray', marginRight: '5px' }}>
                       ${prod.precio}
                     </span>
                     <span style={{ color: 'green' }}>${prod.precioFinal}</span>
                   </p>
+                  </>
                 ) : (
                   <p>${prod.precio}</p>
                 )}

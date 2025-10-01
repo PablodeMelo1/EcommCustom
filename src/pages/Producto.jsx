@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Nav from '../Components/Nav'; 
+import Catalogo from '../Components/Catalogo';
+import Nav from '../Components/Nav';
 import '../styles/producto.css';
 import { fetchWithRefresh } from '../api';
+export const BASE_URL = process.env.REACT_APP_BASE_URL_API;
 
 export default function Producto({ config }) {
   const { id } = useParams();
@@ -13,12 +15,40 @@ export default function Producto({ config }) {
   const [messageType, setMessageType] = useState('');
   const [message2, setMessage2] = useState('');
   const [messageType2, setMessageType2] = useState('');
-
+  const [productos, setProductos] = useState([]);
+  const [productosEnOferta, setProductosEnOferta] = useState([]);
+  const [productosDestacados, setProductosDestacados] = useState([]);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+  const [productosRandom, setProductosRandom] = useState([]); // <<--- nuevo
   const [nuevoComentario, setNuevoComentario] = useState({
     nombre: localStorage.getItem('nombre'),
     mensaje: '',
     puntuacion: 5
   });
+
+  const rol = localStorage.getItem('role') || 'user';
+
+  useEffect(() => {
+    const cargarProductos = async () => {
+      try {
+        const res = await fetchWithRefresh('/api/v1/productos');
+        if (!res.ok) throw new Error('Error al cargar productos');
+        const data = await res.json();
+
+        setProductos(data);
+        setProductosEnOferta(data.filter(prod => prod.oferta));
+        setProductosDestacados(data.filter(prod => prod.destacado));
+
+        // <<<--- Elegir 4 productos random UNA VEZ
+        const seleccionados = [...data].sort(() => Math.random() - 0.5).slice(0, 4);
+        setProductosRandom(seleccionados);
+
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    cargarProductos();
+  }, []);
 
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedTalle, setSelectedTalle] = useState('');
@@ -27,11 +57,11 @@ export default function Producto({ config }) {
   useEffect(() => {
     const cargarProductoYComentarios = async () => {
       try {
-        const resProd = await fetchWithRefresh(`/api/productos/${id}`);
+        const resProd = await fetchWithRefresh(`/api/v1/productos/${id}`);
         const dataProd = await resProd.json();
         setProducto(dataProd);
 
-        const resCom = await fetchWithRefresh(`/api/productos/${id}/comentarios`);
+        const resCom = await fetchWithRefresh(`/api/v1/productos/${id}/comentarios`);
         const dataCom = await resCom.json();
         setComentarios(dataCom);
       } catch (err) {
@@ -42,6 +72,23 @@ export default function Producto({ config }) {
     };
     cargarProductoYComentarios();
   }, [id]);
+
+
+  //metodo compártir producto
+  const compartirProducto = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: producto.nombre,
+        text: `Mirá este producto: ${producto.nombre}`,
+        url: window.location.href
+      })
+        .then(() => console.log('Compartido con éxito'))
+        .catch(err => console.error('Error al compartir:', err));
+    } else {
+      alert("Tu navegador no soporta compartir directamente.");
+    }
+  };
+
 
   // Agregar al carrito (solo LocalStorage)
   const agregarAlCarrito = () => {
@@ -94,7 +141,7 @@ export default function Producto({ config }) {
   const handleEnviarComentario = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetchWithRefresh(`/api/productos/${producto._id}/comentarios`, {
+      const res = await fetchWithRefresh(`/api/v1/productos/${producto._id}/comentarios`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(nuevoComentario)
@@ -102,7 +149,7 @@ export default function Producto({ config }) {
 
       if (res.ok) {
         setNuevoComentario({ nombre: localStorage.getItem('nombre'), mensaje: '', puntuacion: 5 });
-        const dataCom = await (await fetchWithRefresh(`/api/productos/${producto._id}/comentarios`)).json();
+        const dataCom = await (await fetchWithRefresh(`/api/v1/productos/${producto._id}/comentarios`)).json();
         setComentarios(dataCom);
         setMessage2('¡Gracias por tu comentario!');
         setMessageType2('success');
@@ -117,8 +164,39 @@ export default function Producto({ config }) {
     }
   };
 
+  function handleConfirmarEliminarComentario(id) {
+    setConfirmDeleteId(id);
+  }
+
+
+
+
+  //eliminar comentario
+  async function handleEliminarComentario(productId, commentId) {
+    try {
+      const res = await fetchWithRefresh(`/api/v1/productos/${productId}/comentarios/${commentId}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Error al eliminar el comentario');
+
+      // 👇 actualizamos el estado para quitarlo al instante
+      setComentarios(prev =>
+        prev.filter(c => c._id !== commentId)
+      );
+
+      setMessageType('success');
+      setMessage('Comentario eliminado correctamente');
+    } catch (err) {
+      setMessageType('error');
+      setMessage('Error al eliminar: ' + err.message);
+    } finally {
+      setConfirmDeleteId(null);
+    }
+  }
+
+
   if (loading || !config) return <p className="loading">Cargando producto...</p>;
   if (!producto) return <p className="error">Producto no encontrado.</p>;
+
+
 
   return (
     <>
@@ -126,22 +204,27 @@ export default function Producto({ config }) {
       <div className="producto-container" style={{ "--color-principal": config.colorPrincipal }}>
         <div className="producto-main">
           <div className="producto-img">
-            <img src={`http://localhost:3001${producto.img}`} alt={producto.nombre} />
+            <img src={`${BASE_URL}${producto.img}`} alt={producto.nombre} />
           </div>
 
           <div className="producto-info">
             <h1>{producto.nombre}</h1>
             {producto.oferta && producto.precioFinal ? (
-              <h2>
+              <h2 className='precio'>
+
+                <div className='off'>
+                  {producto.descuento}% OFF
+                </div>
+
                 <span style={{ textDecoration: 'line-through', color: 'gray', marginRight: '5px' }}>
                   ${producto.precio}
                 </span>
-                <span style={{ color: 'green' }}>${producto.precioFinal}</span>
+                <span style={{ color: '#009b5a' }}>${producto.precioFinal}</span>
               </h2>
             ) : (
               <p className='prodPrecio'>${producto.precio}</p>
             )}
-            <p className="descripcion">{producto.descripcion}</p>
+
 
             {producto.coloresCheck && (
               <div className="selector">
@@ -172,6 +255,12 @@ export default function Producto({ config }) {
                 {message}
               </h3>
             )}
+            <button onClick={compartirProducto} className="compartir" alt="compartir">
+              ➦
+            </button>
+
+            <p className="descripcion">{producto.descripcion}</p>
+
           </div>
         </div>
 
@@ -212,8 +301,46 @@ export default function Producto({ config }) {
             <div key={i} className="comentario">
               <p><strong>{c.nombre}</strong> {'⭐'.repeat(c.puntuacion)}</p>
               <p>{c.mensaje}</p>
+
+
+              {/* borrar comentario */}
+              {rol === 'admin' && (confirmDeleteId === c._id ? (
+                <div className="chip-actions">
+                  <button
+                    onClick={() => handleEliminarComentario(producto._id, c._id)}
+                    className="btn-confirm-delete"
+                  >
+                    ✔
+                  </button>
+                  <button
+                    onClick={() => setConfirmDeleteId(null)}
+                    className="btn-cancel-delete"
+                  >
+                    ✖
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => handleConfirmarEliminarComentario(c._id)}
+                  className="btn-delete"
+                >
+                  🗑
+                </button>
+              )
+              )}
+
             </div>
           ))}
+
+          {/* fin borrar comentario */}
+
+          <Catalogo
+            productosEnOferta={null}
+            productosDestacados={null}
+            todosLosProductos={productosRandom}
+            color={config.colorPrincipal}
+          />
+
         </div>
       </div>
     </>

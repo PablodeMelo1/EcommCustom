@@ -27,11 +27,11 @@ export default function Busqueda() {
   useEffect(() => {
     async function cargarConfigYCategorias() {
       try {
-        const resConfig = await fetchWithRefresh('/api/config');
+        const resConfig = await fetchWithRefresh('/api/v1/config');
         const dataConfig = await resConfig.json();
         setConfig(dataConfig);
 
-        const resCats = await fetchWithRefresh('/api/categorias');
+        const resCats = await fetchWithRefresh('/api/v1/categorias');
         const dataCats = await resCats.json();
         setCategorias(dataCats);
 
@@ -47,7 +47,7 @@ export default function Busqueda() {
     async function cargarProductos() {
       setCargando(true);
       try {
-        const res = await fetchWithRefresh('/api/productos');
+        const res = await fetchWithRefresh('/api/v1/productos');
         const data = await res.json();
         setProductosSugeridos(data);
 
