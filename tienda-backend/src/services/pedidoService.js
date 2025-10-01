@@ -1,5 +1,5 @@
 // src/services/pedidoService.js
-import Pedido from '../models/Pedido.js';
+import Pedido from '../models/pedido.js';
 import Producto from '../models/Producto.js';
 import Carrito from '../models/Carrito.js';
 import { nanoid } from 'nanoid';
