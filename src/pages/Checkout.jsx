@@ -34,7 +34,7 @@ export default function Checkout() {
     // Cargar config desde API usando fetchWithRefresh
     const cargarConfig = async () => {
       try {
-        const res = await fetchWithRefresh('/api/config', {
+        const res = await fetchWithRefresh('/api/v1/config', {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Error al cargar configuración');
@@ -70,7 +70,7 @@ export default function Checkout() {
     try {
       if (paymentMethod === 'mercado_pago') {
         localStorage.removeItem('carrito');
-        const res = await fetchWithRefresh('/api/crear-preferencia', {
+        const res = await fetchWithRefresh('/api/v1/mercadopago/crear-preferencia', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
           body: JSON.stringify(pedidoData)
@@ -79,7 +79,7 @@ export default function Checkout() {
         if (data.init_point) return window.location.href = data.init_point;
         throw new Error('No se pudo generar el link de pago');
       } else {
-        const res = await fetchWithRefresh('/api/pedidos', {
+        const res = await fetchWithRefresh('/api/v1/pedidos', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
           body: JSON.stringify(pedidoData)
@@ -133,12 +133,20 @@ export default function Checkout() {
 
         <form className="checkout-form" onSubmit={handleConfirmarCompra}>
           <h3>Tipo de Entrega</h3>
-          {['envio', 'retiro'].map(opt => (
-            <label key={opt}>
-              <input type="radio" name="tipoEntrega" value={opt} checked={tipoEntrega === opt} onChange={handleTipoEntregaChange} />
-              {opt === 'envio' ? 'Envío a domicilio (+ $200)' : 'Retiro en persona'}
+
+          {config.retiroLocalCheck ? (
+            ['envio', 'retiro'].map(opt => (
+              <label key={opt}>
+                <input type="radio" name="tipoEntrega" value={opt} checked={tipoEntrega === opt} onChange={handleTipoEntregaChange} />
+                {opt === 'envio' ? 'Envío a domicilio (+ $200)' : 'Retiro en persona'}
+              </label>
+            ))
+          ) : (
+            <label>
+              <input type="radio" name="tipoEntrega" value="envio" checked={tipoEntrega === 'envio'} onChange={handleTipoEntregaChange} />
+              Envío a domicilio (+ $200)
             </label>
-          ))}
+          )}
 
           {tipoEntrega === 'envio' && Object.entries(formulario).map(([key, value]) =>
             key !== 'infoAdicional' ? (

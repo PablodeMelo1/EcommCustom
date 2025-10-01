@@ -17,7 +17,7 @@ export default function Home() {
   useEffect(() => {
     const cargarConfig = async () => {
       try {
-        const res = await fetchWithRefresh('/api/config');
+        const res = await fetchWithRefresh('/api/v1/config');
         if (!res.ok) throw new Error('Error al cargar config');
         const data = await res.json();
         setConfig(data);
@@ -31,7 +31,7 @@ export default function Home() {
   useEffect(() => {
         const cargarProductos = async () => {
             try {
-                const res = await fetchWithRefresh('/api/productos');
+                const res = await fetchWithRefresh('/api/v1/productos');
                 if (!res.ok) throw new Error('Error al cargar productos');
                 const data = await res.json();
 
@@ -63,8 +63,7 @@ export default function Home() {
         padding: '20px 20px',
         textAlign: 'center'
       }}>
-        <h2 style={{color: config.fuentePrincipal}}>Bienvenido a {config.nombreTienda}</h2>
-        <p style={{color: config.fuentePrincipal}}>{config.bannerTexto}</p>
+        <p style={{color: config.fuentePrincipal, fontSize: '20px', fontWeight:'600'}}>{config.bannerTexto}</p>
         <a href="#comprar"><button style={{
           background: '#fff', color: config.colorPrincipal,
           border: 'none', padding: '10px 20px',

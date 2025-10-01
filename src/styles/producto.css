@@ -76,6 +76,7 @@ textarea
 .producto-info {
   flex: 1;
   min-width: 320px;
+
 }
 
 .producto-info h1 {
@@ -86,11 +87,19 @@ textarea
 }
 
 .producto-info .precio {
-  font-size: 3rem;
-  font-weight: bold;
+  font-size: 2.5rem;
   color: var(--color-principal);
-  margin-bottom: 22px;
+  margin-bottom: 30px;
   font-weight: 700;
+}
+
+.off{
+  background-color: #009b5a;
+  color: #fff;
+  padding:0px 10px;
+  border-radius: 20px;
+  text-align: center;
+  margin: 20px 0px;
 }
 
 .producto-info .prodPrecio {
@@ -106,23 +115,9 @@ textarea
   color: #444;
 }
 
-.producto-info .comprar {
-  background-color: var(--color-principal);
-  color: #fff;
-  border: none;
-  padding: 14px 32px;
-  font-size: 1.1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 700;
-  box-shadow: 0 4px 8px rgb(0 123 255 / 0.4);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
 
-.producto-info .comprar:hover {
-  background-color: #0056b3;
-  box-shadow: 0 6px 12px rgb(0 86 179 / 0.6);
-}
+
+
 
 /* Comentarios */
 .producto-comentarios {
@@ -218,4 +213,61 @@ textarea
     font-size: 0.9rem;
     padding: 0.45rem 0.6rem;
   }
+}
+
+.producto-info .comprar {
+  background-color: var(--color-principal);
+  color: #fff;
+  border: none;
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  cursor: pointer;
+   width: 100%;
+  font-weight: 700;
+  box-shadow: 0 4px 8px rgb(0 123 255 / 0.4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.producto-info .comprar:hover {
+  background-color: #949494;
+  box-shadow: 0 6px 12px #949494;
+}
+
+
+
+
+.producto-info .compartir {
+  background-color: var(--color-principal);
+  color: #fff;
+  border: none;
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  cursor: pointer;
+ 
+  margin: 20px 0px;
+  font-weight: 700;
+  box-shadow: 0 4px 8px rgb(0 123 255 / 0.4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.producto-info .compartir:hover {
+  background-color: #949494;
+  box-shadow: 0 6px 12px #949494;;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+  color: white;
 }

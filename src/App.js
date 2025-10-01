@@ -31,7 +31,7 @@ function App() {
   useEffect(() => {
     const loadConfig = async () => {
       try {
-        const res = await fetchWithRefresh('/api/config');
+        const res = await fetchWithRefresh('/api/v1/config');
         if (!res.ok) throw new Error('Error cargando config');
         const data = await res.json();
         setConfig(data);

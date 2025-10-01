@@ -1,28 +1,36 @@
 {
   "name": "tienda-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Backend para la tienda en línea, con API RESTful y funcionalidades de e-commerce.",
+  "main": "src/app.js",
   "type": "module",
   "scripts": {
-
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./src/app.js",
+    "dev": "nodemon ./src/app.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "nodejs",
+    "express",
+    "mongodb",
+    "ecommerce",
+    "mercadopago"
+  ],
+  "author": "Tu Nombre",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "axios": "^1.11.0",
-    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "express": "^5.1.0",
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "mercadopago": "^2.8.0",
-    "mongoose": "^8.17.0",
-    "multer": "^2.0.2",
-    "nanoid": "^5.1.5",
-    "path": "^0.12.7",
+    "mercadopago": "^2.0.0",
+    "mongoose": "^8.4.1",
+    "multer": "^1.4.5-lts.1",
+    "nanoid": "^5.0.7",
     "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.2"
   }
 }

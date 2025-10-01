@@ -6,8 +6,9 @@ import { FaTiktok } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 import '../styles/Footer.css'; 
-
-const URLConfig = 'http://localhost:3001/api/config';
+//import { BASE_URL } from '../api';
+export const BASE_URL = process.env.REACT_APP_BASE_URL_API;
+const URLConfig = `${BASE_URL}/api/v1/config`;
 
 export default function Footer() {
   const [config, setConfig] = useState(null);
@@ -47,6 +48,7 @@ export default function Footer() {
   return (
     <footer className={`footer ${oculto ? 'oculto' : ''}`} style={{ background: config.colorPrincipal }}>
       {role === "admin" && (<a href="/admin" className="nav-button" style={{ color: config.fuentePrincipal}}>PANEL DE ADMINISTRACION</a>)}
+      {config.retiroLocalCheck && <p style={{ color: config.fuentePrincipal, fontSize: '25px', fontWeight: 'bold', margin: '0px 0' }}>Donde nos encontramos: {config.retiroLocalTexto}</p>}
       <p style={{ color: config.fuentePrincipal }}>
         &copy; 2025 {config.nombreTienda} - Todos los derechos reservados
       </p>
@@ -65,9 +67,11 @@ export default function Footer() {
               <span role="img" aria-label={r.label}>{r.icon}</span>
             </a>
           ))}
-          <p>{config.emailTexto}</p>
 
-          <p>by WebEcomm</p>
+          
+          <p style={{ color: config.fuentePrincipal }}>{config.emailTexto}</p>
+
+          <p style={{ color: config.fuentePrincipal }}>by WebEcomm</p>
       </div>
     </footer>
   );

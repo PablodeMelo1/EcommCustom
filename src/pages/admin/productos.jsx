@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { fetchWithRefresh } from '../../api';
 import '../../styles/productos.css';
 
+export const BASE_URL = process.env.REACT_APP_BASE_URL_API;
+
 export default function ProductosAdmin() {
     const [productos, setProductos] = useState([]);
     const [categorias, setCategorias] = useState([]);
@@ -53,7 +55,7 @@ export default function ProductosAdmin() {
 
     async function cargarProductos() {
         try {
-            const res = await fetchWithRefresh('/api/productos');
+            const res = await fetchWithRefresh('/api/v1/productos');
             if (!res.ok) throw new Error('Error al cargar productos');
             const data = await res.json();
             setProductos(data);
@@ -65,7 +67,7 @@ export default function ProductosAdmin() {
 
     async function cargarCategorias() {
         try {
-            const res = await fetchWithRefresh('/api/categorias');
+            const res = await fetchWithRefresh('/api/v1/categorias');
             if (!res.ok) throw new Error('Error al cargar categorías');
             const data = await res.json();
             setCategorias(data);
@@ -87,7 +89,7 @@ export default function ProductosAdmin() {
     async function handleSubmit(e) {
         e.preventDefault();
         const metodo = editId ? 'PUT' : 'POST';
-        const url = editId ? `/api/productos/${editId}` : '/api/productos';
+        const url = editId ? `/api/v1/productos/${editId}` : '/api/v1/productos';
 
         try {
             const formData = new FormData();
@@ -164,7 +166,7 @@ export default function ProductosAdmin() {
 
     async function handleEliminar(id) {
         try {
-            const res = await fetchWithRefresh(`/api/productos/${id}`, { method: 'DELETE' });
+            const res = await fetchWithRefresh(`/api/v1/productos/${id}`, { method: 'DELETE' });
             if (!res.ok) throw new Error('Error al eliminar el producto');
             await cargarProductos();
             setMessageType('success');
@@ -206,7 +208,7 @@ export default function ProductosAdmin() {
         }
 
         try {
-            const res = await fetchWithRefresh('/api/categorias', {
+            const res = await fetchWithRefresh('/api/v1/categorias', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nombre })
@@ -250,7 +252,7 @@ export default function ProductosAdmin() {
         formData.append('archivo', selectedFile);
 
         try {
-            const res = await fetchWithRefresh('/api/productos/carga-masiva', {
+            const res = await fetchWithRefresh('/api/v1/productos/carga-masiva', {
                 method: 'POST',
                 body: formData,
             });
@@ -279,7 +281,7 @@ export default function ProductosAdmin() {
 
     async function handleEliminarCategoria(id) {
         try {
-            const res = await fetchWithRefresh(`/api/categorias/${id}`, { method: 'DELETE' });
+            const res = await fetchWithRefresh(`/api/v1/categorias/${id}`, { method: 'DELETE' });
             if (!res.ok) throw new Error('Error al eliminar la categoría');
             await cargarCategorias();
             setMessageType('success');
@@ -319,6 +321,7 @@ export default function ProductosAdmin() {
 
                 <div className="form-group">
                     <label htmlFor="img">Imagen del producto</label>
+                    <p style={{ fontSize: '12px', color: '#666' }}>TIP: Imagen cuadrada con fondo blanco.</p>
                     <input type="file" id="img" name="img" onChange={handleFileChangeProducto} accept="image/*" />
                 </div>
 
@@ -546,7 +549,7 @@ export default function ProductosAdmin() {
                             {productosFiltrados.map(prod => (
                                 <tr key={prod._id}>
                                     <td data-label="Imagen">
-                                        {prod.img && <img src={`http://localhost:3001${prod.img}`} alt={prod.nombre} className="table-img" />}
+                                        {prod.img && <img src={`${BASE_URL}${prod.img}`} alt={prod.nombre} className="table-img" />}
                                     </td>
                                     <td data-label="Nombre">{prod.nombre}</td>
                                     <td data-label="Precio">

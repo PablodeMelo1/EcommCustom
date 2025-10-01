@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchWithRefresh } from '../../api';
 import '../../styles/pedidos.css';
 
-const PEDIDOS_URL = '/api/pedidos';
+const PEDIDOS_URL = '/api/v1/pedidos';
 const token = localStorage.getItem('token');
 
 export default function PedidosAdmin() {
@@ -127,9 +127,9 @@ export default function PedidosAdmin() {
                 <td>${p.total}</td>
                 <td>{p.estado}</td>
                 <td>{p.tipoEntrega}</td>
-                <td>
-                  {p.direccion}, {p.numeroCasa} ({p.tipoCasa}), {p.ciudad}, {p.departamento}
-                </td>
+                <td>{p.tipoEntrega === 'retiro' ? 'N/A' : (
+                  `${p.direccion}, ${p.numeroCasa} (${p.tipoCasa}), ${p.ciudad}, ${p.departamento}`
+                )}</td>
                 <td>
                   <select
                     value={p.estado}

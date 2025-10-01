@@ -24,7 +24,7 @@ export default function CheckoutExito() {
 
     const cargarPedido = async () => {
       try {
-        const res = await fetchWithRefresh(`/api/pedidos/${pedidoId}`, {
+        const res = await fetchWithRefresh(`/api/v1/pedidos/${pedidoId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Error al cargar pedido');
@@ -56,7 +56,7 @@ export default function CheckoutExito() {
 
     const cargarConfig = async () => {
       try {
-        const res = await fetchWithRefresh('/api/config', {
+        const res = await fetchWithRefresh('/api/v1/config', {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Error al cargar config');
@@ -89,7 +89,7 @@ export default function CheckoutExito() {
           <h1>Pedido #{pedido.numeroPedido}</h1>
           <p className="success-text">Gracias por tu pedido. En breve nos pondremos en contacto.</p>
           <p>Para completar el pago, realiza una transferencia a alguna de las siguientes cuentas:</p>
-          <p>*ingresa como referencia el id del pedido</p>
+          <p><strong>*ingresa como referencia el id del pedido</strong></p>
           <h2>Monto: ${pedido.total}</h2>
           {metodosTransferencia.length > 0 ? (
             <table className="tabla-cuentas">

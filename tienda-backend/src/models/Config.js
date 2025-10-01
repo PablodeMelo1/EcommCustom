@@ -8,7 +8,7 @@ const configSchema = new mongoose.Schema({
   nombreTienda: String,
   bannerTexto: String,
   tipoCatalogo: { type: String, default: "grid" },
-  
+
   mercadoPagoCheck: { type: Boolean, default: false },
   transferenciaCheck: { type: Boolean, default: false },
   efectivoCheck: { type: Boolean, default: false },
@@ -23,6 +23,10 @@ const configSchema = new mongoose.Schema({
       numeroCuenta: String
     }
   ],
+
+  retiroLocalCheck: { type: Boolean, default: false },
+  retiroLocalTexto: String,
+
   igCheck: { type: Boolean, default: false },
   xCheck: { type: Boolean, default: false },
   fbCheck: { type: Boolean, default: false },
@@ -36,7 +40,7 @@ const configSchema = new mongoose.Schema({
   ttTexto: String,
   wpTexto: Number,
   emailTexto: String,
-  
+
 });
 
 export default mongoose.model('Config', configSchema);

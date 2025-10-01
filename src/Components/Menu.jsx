@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Menu.css';
 
+export const BASE_URL = process.env.REACT_APP_BASE_URL_API;
+
 export default function Menu() {
   const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/categorias')
+    fetch(`${BASE_URL}/api/v1/categorias`)
       .then(res => res.json())
       .then(data => setCategorias(data))
       .catch(err => console.error('Error al cargar categorías:', err));
