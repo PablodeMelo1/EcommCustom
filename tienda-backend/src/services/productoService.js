@@ -1,6 +1,6 @@
 
 // src/services/productoService.js
-import Producto from '../models/Producto.js';
+import Producto from '../models/producto.js';
 import { validateAndFormatProduct } from '../utils/helpers.js';
 import xlsx from 'xlsx';
 import mongoose from 'mongoose';
