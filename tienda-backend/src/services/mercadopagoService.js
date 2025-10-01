@@ -1,8 +1,8 @@
 // src/services/mercadopagoService.js
 import { MercadoPagoConfig, Preference, Payment } from 'mercadopago';
 import Config from '../models/Config.js';
-import Pedido from '../models/Pedido.js';
-import Producto from '../models/Producto.js';
+import Pedido from '../models/pedido.js';
+import Producto from '../models/producto.js';
 import { logSuccess, logError } from '../utils/logger.js';
 import { nanoid } from 'nanoid';
 import 'dotenv/config';

@@ -1,6 +1,6 @@
 // src/services/pedidoService.js
 import Pedido from '../models/pedido.js';
-import Producto from '../models/Producto.js';
+import Producto from '../models/producto.js';
 import Carrito from '../models/Carrito.js';
 import { nanoid } from 'nanoid';
 
