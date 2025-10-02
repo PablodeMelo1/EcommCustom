@@ -121,14 +121,9 @@ export default function Estetica() {
             
             {/* Muestra el logo actual si existe */}
             {config.logoUrl && (
-                <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+                <div style={{ textAlign: 'left', marginBottom: '1rem', display: 'flex' }}>
                     <h3>Logo actual:</h3>
-                    <img
-                        src={`${BASE_URL}${config.logoUrl}`}
-                        alt="Logo de la tienda"
-                        style={{ maxWidth: '100px', height: 'auto' }}
-                        
-                    />
+                    {config.logoUrl && <img  style={{ maxWidth: '100px', height: 'auto', margin: '10px 10px', backgroundColor: 'lightgray' }} src={config.logoUrl} alt="Logo de la tienda" className="table-img" />}
                 </div>
             )}
 

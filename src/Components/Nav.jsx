@@ -13,13 +13,13 @@ export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const burgerRef = useRef(null);
-  const [config, setConfig] = useState(null);
   const [busqueda, setBusqueda] = useState("");
   const navigate = useNavigate();
 
   const role = localStorage.getItem("role");
   const token = localStorage.getItem("token");
 
+  const [config, setConfig] = useState(null);
   // Efecto para obtener la configuración y manejar clics fuera del menú
   useEffect(() => {
     fetch(URLConfig)
@@ -71,14 +71,15 @@ export default function Nav() {
         .then(data => setCategorias(data))
         .catch(err => console.error('Error al cargar categorías:', err));
   }, []);
-
-  if (!config) return <p style={{ textAlign: 'center', marginTop: '50px' }}>Cargando...</p>;
-
+  if (!config) {
+    return <div>Cargando...</div>;
+  }
   return (
     <div className='nav-container' style={{background: config.colorNav}}>
       <nav style={{ color: config.fuentePrincipal }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <a href="/"><img src={`${BASE_URL}${config.logoUrl}`} alt="Logo" style={{ height: '50px', marginRight: '10px' }} /></a>
+          <a href="/">{config.logoUrl && <img  style={{ height: '50px', marginRight: '10px', border: '0px solid lightgray' }} src={config.logoUrl} alt="Logo de la tienda" className="table-img" />}
+</a>
           <h1 style={{ fontSize: '1.5rem' }}>{config.nombreTienda}</h1>
         </div>
 

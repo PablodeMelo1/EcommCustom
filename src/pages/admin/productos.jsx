@@ -549,7 +549,8 @@ export default function ProductosAdmin() {
                             {productosFiltrados.map(prod => (
                                 <tr key={prod._id}>
                                     <td data-label="Imagen">
-                                        {prod.img && <img src={`${BASE_URL}${prod.img}`} alt={prod.nombre} className="table-img" />}
+                                        {prod.img && <img src={prod.img} alt={prod.nombre} className="table-img" />}
+
                                     </td>
                                     <td data-label="Nombre">{prod.nombre}</td>
                                     <td data-label="Precio">

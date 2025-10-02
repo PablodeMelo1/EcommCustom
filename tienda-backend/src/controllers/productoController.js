@@ -1,6 +1,9 @@
 // src/controllers/productoController.js
 import * as productoService from '../services/productoService.js';
+import { v2 as cloudinary } from "cloudinary";
+import { v4 as uuidv4 } from 'uuid';
 import { logError } from '../utils/logger.js';
+import streamifier from "streamifier";
 
 export const getProducts = async (req, res) => {
     try {
@@ -25,9 +28,29 @@ export const getProductById = async (req, res) => {
 export const createProduct = async (req, res) => {
     try {
         const { body, file } = req;
+
+        let imgUrl = "";
+        let imgPublic = "";
+
+        if (file) {
+            imgPublic = `productos/${uuidv4()}`;
+
+            imgUrl = await new Promise((resolve, reject) => {
+                const uploadStream = cloudinary.uploader.upload_stream(
+                    { public_id: imgPublic, overwrite: true },
+                    (error, result) => {
+                        if (error) return reject(error);
+                        resolve(result.secure_url);
+                    }
+                );
+                streamifier.createReadStream(file.buffer).pipe(uploadStream);
+            });
+        }
+
         const updateData = {
             ...body,
-            img: file ? `/uploads/${file.filename}` : "",
+            img: imgUrl,
+            imgPublicId: imgPublic,
             colores: body.colores ? JSON.parse(body.colores) : [],
             talles: body.talles ? JSON.parse(body.talles) : [],
             oferta: body.oferta === 'true' || body.oferta === true,
@@ -35,19 +58,67 @@ export const createProduct = async (req, res) => {
             coloresCheck: body.coloresCheck === 'true' || body.coloresCheck === true,
             tallesCheck: body.tallesCheck === 'true' || body.tallesCheck === true
         };
+
         const newProduct = await productoService.createProduct(updateData);
         res.status(201).json(newProduct);
+
     } catch (error) {
         logError('Error al crear producto:', error);
         res.status(500).json({ error: 'Error al crear producto' });
     }
 };
 
+export const deleteProduct = async (req, res) => {
+    try {
+        // 1️⃣ Obtener el producto antes de eliminarlo
+        const producto = await productoService.getProductById(req.params.id);
+        if (!producto) {
+            return res.status(404).json({ error: 'Producto no encontrado' });
+        }
+
+        // 2️⃣ Borrar la imagen de Cloudinary si existe
+        if (producto.imgPublicId) {
+            await cloudinary.uploader.destroy(producto.imgPublicId);
+        }
+
+        // 3️⃣ Eliminar el producto de la DB
+        await productoService.deleteProduct(req.params.id);
+
+        res.json({ success: true, message: 'Producto eliminado correctamente' });
+
+    } catch (error) {
+        logError('Error al eliminar producto:', error);
+        res.status(500).json({ error: 'Error al eliminar el producto' });
+    }
+};
+
 export const updateProduct = async (req, res) => {
     try {
         const { body, file } = req;
+
+        let imgUrl = "";
+        let imgPublic = body.imgPublicId || ""; // mantener el mismo si no cambia
+
+        // 🔹 Si viene una nueva imagen, la subimos a Cloudinary
+        if (file) {
+            imgPublic = `productos/${uuidv4()}`; // nuevo ID si reemplaza imagen
+
+            imgUrl = await new Promise((resolve, reject) => {
+                const uploadStream = cloudinary.uploader.upload_stream(
+                    { public_id: imgPublic, overwrite: true },
+                    (error, result) => {
+                        if (error) return reject(error);
+                        resolve(result.secure_url);
+                    }
+                );
+                streamifier.createReadStream(file.buffer).pipe(uploadStream);
+            });
+        }
+
         const updateData = {
             ...body,
+            img: file ? imgUrl : body.img,   // si no se subió nueva, queda igual
+            imgPublicId: imgPublic,
             colores: body.colores ? JSON.parse(body.colores) : [],
             talles: body.talles ? JSON.parse(body.talles) : [],
             oferta: body.oferta === 'true' || body.oferta === true,
@@ -55,9 +126,7 @@ export const updateProduct = async (req, res) => {
             coloresCheck: body.coloresCheck === 'true' || body.coloresCheck === true,
             tallesCheck: body.tallesCheck === 'true' || body.tallesCheck === true
         };
-        if (file) {
-            updateData.img = `/uploads/${file.filename}`;
-        }
+
         const updatedProduct = await productoService.updateProduct(req.params.id, updateData);
         res.json(updatedProduct);
     } catch (error) {
@@ -66,19 +135,9 @@ export const updateProduct = async (req, res) => {
     }
 };
 
-export const deleteProduct = async (req, res) => {
-    try {
-        await productoService.deleteProduct(req.params.id);
-        res.json({ success: true, message: 'Producto eliminado correctamente' });
-    } catch (error) {
-        logError('Error al eliminar producto:', error);
-        res.status(500).json({ error: 'Error al eliminar el producto' });
-    }
-};
 
 
 
-// Eliminar un comentario de un producto
 export const deleteCommentFromProduct = async (req, res) => {
     try {
         const { id, commentId } = req.params;
@@ -92,7 +151,6 @@ export const deleteCommentFromProduct = async (req, res) => {
         res.status(500).json({ error: 'No se pudo eliminar el comentario' });
     }
 };
-
 
 export const bulkUploadProducts = async (req, res) => {
     try {

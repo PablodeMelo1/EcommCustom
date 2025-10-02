@@ -15,7 +15,7 @@ export default function CatalogoList({ productosEnOferta, productosDestacados, t
           {productos.slice(0, 24).map(prod => (
             <a href={`/producto/${prod._id}`} key={prod._id}>
               <div className="producto">
-                <img src={`${BASE_URL}${prod.img}`} alt={prod.nombre} />
+                {prod.img && <img src={prod.img} alt={prod.nombre} className="table-img" />}
                 <div className="info">
                   <h3>{prod.nombre}</h3>
                   {prod.oferta && prod.precioFinal ? (

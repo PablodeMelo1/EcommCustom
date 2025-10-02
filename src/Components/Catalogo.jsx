@@ -22,7 +22,7 @@ const baseURL = process.env.REACT_APP_BASE_URL_API;
           {productos.map(prod => (
             <div key={prod._id} className="producto">
               <a href={`/producto/${prod._id}`}>
-                <img src={`${baseURL}${prod.img}`} alt={prod.nombre} />
+                {prod.img && <img src={prod.img} alt={prod.nombre} className="table-img" />}
                 <h3>{prod.nombre}</h3>
                 {prod.oferta && prod.precioFinal ? (
                   <>
