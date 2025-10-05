@@ -180,7 +180,7 @@ export const addCommentToProduct = async (req, res) => {
     try {
         const { nombre, mensaje, puntuacion } = req.body;
         if (!nombre || !mensaje || !puntuacion) {
-            return res.status(400).json({ error: 'Faltan campos requeridos' });
+            return res.status(400).json({ error: '¡Es necesario Iniciar sesion para añadir un comentario!' });
         }
         await productoService.addProductComment(req.params.id, req.body);
         res.status(200).json({ mensaje: 'Comentario guardado' });

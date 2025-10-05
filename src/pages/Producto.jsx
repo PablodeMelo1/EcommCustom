@@ -146,16 +146,23 @@ export default function Producto({ config }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(nuevoComentario)
       });
+      const nombreCli = localStorage.getItem('nombre');
+      if (res.ok) { 
 
-      if (res.ok) {
-        setNuevoComentario({ nombre: localStorage.getItem('nombre'), mensaje: '', puntuacion: 5 });
+        setNuevoComentario({ nombre: nombreCli, mensaje: '', puntuacion: 5 });
         const dataCom = await (await fetchWithRefresh(`/api/v1/productos/${producto._id}/comentarios`)).json();
         setComentarios(dataCom);
         setMessage2('¡Gracias por tu comentario!');
         setMessageType2('success');
       } else {
-        setMessage2('Error al ingresar el comentario');
-        setMessageType2('error');
+        if (res.status === 400) {
+          const errorData = await res.json();
+          setMessage2(errorData.error || 'Error al ingresar el comentario');
+        } else {
+          setMessage2('Error al ingresar el comentario');
+          setMessageType2('error');
+        }
+        
       }
     } catch (err) {
       console.error(err);
@@ -204,7 +211,7 @@ export default function Producto({ config }) {
       <div className="producto-container" style={{ "--color-principal": config.colorPrincipal }}>
         <div className="producto-main">
           <div className="producto-img">
-            <img src={`${BASE_URL}${producto.img}`} alt={producto.nombre} />
+            {producto.img && <img src={producto.img} alt={producto.nombre} className="table-img" />}
           </div>
 
           <div className="producto-info">
