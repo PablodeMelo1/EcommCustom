@@ -37,6 +37,7 @@
   height: 200px;
   margin: 15px;
   object-fit: contain;
+  margin: 10px auto;
   border-radius: 4px;
 }
 

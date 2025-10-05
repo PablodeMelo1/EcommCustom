@@ -1,36 +1,14 @@
 // src/middlewares/multerMiddleware.js
 import multer from 'multer';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Middleware para leer archivos en memoria (productos y logos)
+export const memoryUpload = multer({ storage: multer.memoryStorage() });
 
-// Configuración para subir archivos a la carpeta 'public/uploads'
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../../public/uploads'));
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
+// Para productos: sube directamente a Cloudinary
+export const productoUpload = memoryUpload;
 
-// Configuración específica para productos (una imagen por producto)
-export const productoUpload = multer({ storage: storage });
+// Para logos: también sube directamente a Cloudinary
+export const logoUpload = memoryUpload;
 
-// Configuración específica para el logo (nombre fijo 'logo')
-export const logoUpload = multer({
-    storage: multer.diskStorage({
-        destination: (req, file, cb) => {
-            cb(null, path.join(__dirname, '../../public/uploads'));
-        },
-        filename: (req, file, cb) => {
-            const ext = path.extname(file.originalname);
-            cb(null, 'logo' + ext); // Nombre fijo para el logo
-        }
-    })
-});
-
-// Configuración para la carga masiva de archivos (en memoria)
-export const upload = multer({ storage: multer.memoryStorage() });
+// Para carga masiva de productos (en memoria)
+export const upload = memoryUpload;

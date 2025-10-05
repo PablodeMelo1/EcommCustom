@@ -45,9 +45,9 @@ export default function Home() {
         };
         cargarProductos();
     }, []);
-
-  if (!config) return <p style={{ textAlign: 'center', marginTop: '50px' }}>Cargando...</p>;
-
+  if (!config) {
+    return <div>Cargando...</div>;
+  }
   return (
     <div style={{
       background: "#f8f8f8",
